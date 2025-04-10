@@ -1,9 +1,8 @@
 package dev.exposed.server
 
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.greaterEq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNull
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun main(){
@@ -30,4 +29,17 @@ fun main(){
             println("ID: ${row[Users.id]}, Name: ${row[Users.name]}, Age: ${row[Users.age]}")
         }
     }
+    transaction {
+        Users.select(Users.name, Users.age) // Explicitly select columns
+            .where { Users.age greaterEq 18 }
+            .forEach {
+                println("${it[Users.name]} is an adult")
+            }
+    }
+   transaction {
+       Users.update({Users.name eq "Alice"}) {
+           it[age] = 26
+       }
+       Users.deleteWhere { Users.age.isNull() }
+   }
 }
