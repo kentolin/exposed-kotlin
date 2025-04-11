@@ -1,23 +1,18 @@
 package dev.exposed.server
 
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNull
-import org.jetbrains.exposed.sql.transactions.transaction
+import dev.exposed.server.plugins.configureDatabases
+import dev.exposed.server.plugins.configureRouting
+import dev.exposed.server.plugins.configureSerialization
+import io.ktor.server.application.*
+import io.ktor.server.netty.*
 
-fun main(){
 
-    Database.connect("jdbc:postgresql://localhost:5432/my_db", user = "postgres", password = "root" )
-    println("Connected to database")
-    transaction {
-        User.new {
-            name = "Charlie"
-            age = 30
-        }
+fun main(args: Array<String>){
+    EngineMain.main(args)
+}
 
-        User.all().forEach {
-            println("${it.name} is ${it.age} years old")
-        }
-        val user = User.findById(1)
-        user?.age = 11
-    }
+fun Application.module(){
+    configureDatabases()
+    configureRouting()
+    configureSerialization()
 }
