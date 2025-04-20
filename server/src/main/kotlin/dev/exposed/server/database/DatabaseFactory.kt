@@ -1,6 +1,7 @@
 package dev.exposed.server.database
 
 import com.typesafe.config.ConfigFactory
+import dev.exposed.server.db.Orders
 import dev.exposed.server.db.Users
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -28,7 +29,7 @@ class DatabaseFactoryImpl : DatabaseFactory {
         )
     }
     override fun initSchema() {
-        transaction { SchemaUtils.create(Users) }
+        transaction { SchemaUtils.create(Users, Orders) }
     }
 
     override suspend fun <T> query(block: suspend Transaction.() -> T): T = newSuspendedTransaction(Dispatchers.IO) {

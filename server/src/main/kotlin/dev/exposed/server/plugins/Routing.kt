@@ -24,14 +24,23 @@ fun Application.configureRouting(){
         single<UserController> { container -> UserController(container.get()) }
     }
 
+    val orderModule = module {
+        factory<OrderRepository> { container -> OrderRepositoryImpl(container.get()) }
+        single<OrderService> { container -> OrderServiceImpl(container.get()) }
+        single<OrderController> { container -> OrderController(container.get()) }
+    }
+
     // Load the module
     container.loadModule(coreModule)
     container.loadModule(userModule)
+    container.loadModule(orderModule)
 
     // Resolve Controller
-    val controller = container.resolve<UserController>()
+    val userController = container.resolve<UserController>()
+    val orderController = container.resolve<OrderController>()
 
     routing {
-        userRouting(controller)
+        userRouting(userController)
+        orderRouting(orderController)
     }
 }
