@@ -1,20 +1,22 @@
 package dev.exposed.server.plugins
 
-import dev.exposed.server.UserDAO
-import dev.exposed.server.UserDTO
+import dev.exposed.server.container.DIContainer
+import dev.exposed.server.database.DatabaseFactory
+import dev.exposed.server.database.DatabaseFactoryImpl
+import dev.exposed.server.db.*
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.coroutines.Dispatchers
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 fun Application.configureRouting(){
-    routing {
-        staticResources("static", "static")
-        get("/") {
-            call.respondText("Hello World!!")
-        }
 
+    val container = DIContainer()
+    container.factory<DatabaseFactory> { DatabaseFactoryImpl() }
+    container.factory<UserRepository> { UserRepositoryImpl(container.get(DatabaseFactory::class)) }
+    container.factory<UserService> { UserServiceImpl(container.get(UserRepository::class)) }
+
+    val controller = container.resolve<UserController>()
+
+    routing {
+        userRouting(controller)
     }
 }
