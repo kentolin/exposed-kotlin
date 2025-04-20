@@ -14,15 +14,19 @@ fun Application.configureRouting(){
     val container = DIContainer()
 
     // Define a module
-    val appModule = module {
+    val coreModule = module {
         single<DatabaseFactory> { DatabaseFactoryImpl() }
+    }
+
+    val userModule = module {
         factory<UserRepository> { container -> UserRepositoryImpl(container.get()) }
         single<UserService> { container -> UserServiceImpl(container.get()) }
         single<UserController> { container -> UserController(container.get()) }
     }
 
     // Load the module
-    container.loadModule(appModule)
+    container.loadModule(coreModule)
+    container.loadModule(userModule)
 
     // Resolve Controller
     val controller = container.resolve<UserController>()
