@@ -10,6 +10,10 @@ pluginManagement {
 
 rootProject.name = "exposed-kotlin"
 
-include(":common")
-include(":desktop")
+
 include(":server")
+include(":core")
+include(":di")
+include(":database")
+include(":user")
+include(":order")

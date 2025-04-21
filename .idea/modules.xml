@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/database/exposed-kotlin.database.main.iml" filepath="$PROJECT_DIR$/.idea/modules/database/exposed-kotlin.database.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/di/exposed-kotlin.di.main.iml" filepath="$PROJECT_DIR$/.idea/modules/di/exposed-kotlin.di.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/order/exposed-kotlin.order.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order/exposed-kotlin.order.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/server/exposed-kotlin.server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/server/exposed-kotlin.server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user/exposed-kotlin.user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user/exposed-kotlin.user.main.iml" />
     </modules>
   </component>
 </project>
