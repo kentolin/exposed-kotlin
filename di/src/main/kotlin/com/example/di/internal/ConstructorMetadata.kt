@@ -1,4 +1,4 @@
-package com.example.di
+package com.example.di.internal
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction

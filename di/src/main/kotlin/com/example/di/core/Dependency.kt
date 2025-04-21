@@ -1,4 +1,4 @@
-package com.example.di
+package com.example.di.core
 
 // Represents a dependency definition
 sealed class Dependency(val scope: ScopeType) {

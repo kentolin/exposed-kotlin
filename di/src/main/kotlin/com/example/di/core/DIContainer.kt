@@ -1,5 +1,8 @@
-package com.example.di
+package com.example.di.core
 
+import com.example.di.internal.ConstructorMetadata
+import com.example.di.exception.DIException
+import com.example.di.dsl.Module
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction

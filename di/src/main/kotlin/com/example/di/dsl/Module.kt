@@ -1,4 +1,7 @@
-package com.example.di
+package com.example.di.dsl
+
+import com.example.di.core.DIContainer
+import com.example.di.core.Dependency
 
 // DI Module to group dependency definitions
 class Module {

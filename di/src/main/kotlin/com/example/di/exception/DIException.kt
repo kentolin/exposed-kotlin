@@ -1,4 +1,4 @@
-package com.example.di
+package com.example.di.exception
 
 import kotlin.reflect.KClass
 
