@@ -19,9 +19,6 @@ class DatabaseFactoryImpl : DatabaseFactory {
             password = config.getString("password")
         )
     }
-    override fun initSchema() {
-        //transaction { SchemaUtils.create(Users, Orders) }
-    }
 
     override suspend fun <T> query(block: suspend Transaction.() -> T): T = newSuspendedTransaction(Dispatchers.IO) {
         block()

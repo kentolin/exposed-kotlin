@@ -11,6 +11,7 @@ import com.example.order.application.service.OrderServiceImpl
 import com.example.order.data.repository.OrderRepository
 import com.example.order.data.repository.OrderRepositoryImpl
 import com.example.order.domain.model.Order
+import com.example.server.config.SchemaConfig
 import com.example.user.api.controller.UserController
 import com.example.user.api.routes.userRouting
 import com.example.user.application.service.UserService
@@ -46,6 +47,7 @@ fun Application.configureRouting(){
     container.loadModule(coreModule)
     container.loadModule(userModule)
     container.loadModule(orderModule)
+
 
 
     // Resolve Controller
