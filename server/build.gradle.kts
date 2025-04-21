@@ -19,16 +19,12 @@ dependencies {
     implementation(project(":di"))
     implementation(project(":database"))
     implementation(project(":user"))
+    implementation(project(":order"))
 
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.resources)
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
-
-
-    implementation(libs.logback.classic)
-
-
 
 }

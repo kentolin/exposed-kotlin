@@ -7,5 +7,5 @@ import io.ktor.server.application.*
 
 fun Application.configureDatabases(){
     val db = DatabaseFactoryImpl()
-    SchemaConfig.initialize(db)
+   // SchemaConfig.initialize(db)
 }
