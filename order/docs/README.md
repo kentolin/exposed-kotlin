@@ -2,29 +2,35 @@
 ├── order/
 │   ├── api/
 │   │   ├── controller/
-│   │   │   └── OrderController.kt    # Handles HTTP requests for orders
+│   │   │   └── OrderController.kt        # Handles HTTP requests for orders
 │   │   └── routes/
-│   │       └── OrderRoutes.kt        # Defines /orders endpoints
+│   │       └── OrderRoutes.kt            # Defines /orders endpoints
 │   ├── application/
 │   │   ├── service/
-│   │   │   ├── OrderService.kt       # Interface for order service
-│   │   │   ├── OrderServiceImpl.kt   # Implementation of order service
-│   │   │   ├── OrderServiceFacade.kt # Facade for user-order coordination
+│   │   │   ├── OrderService.kt           # Interface for order service
+│   │   │   ├── OrderServiceImpl.kt       # Implementation of order service
+│   │   │   ├── OrderServiceFacade.kt     # Facade for user-order coordination, publishes events
+│   │   │   ├── EventPublisher.kt         # Interface for publishing events (NEW)
+│   │   │   └── InMemoryEventPublisher.kt # Implementation of EventPublisher (NEW)
+│   │   ├── handler/
+│   │   │   └── OrderEventHandler.kt      # Handles events (e.g., from other modules) (NEW, optional)
 │   │   └── mapper/
-│   │       └── OrderMapper.kt        # Converts Order <-> OrderDTO
+│   │       └── OrderMapper.kt            # Converts Order <-> OrderDTO
 │   ├── domain/
 │   │   ├── model/
-│   │   │   └── Order.kt              # Domain object for Order
+│   │   │   └── Order.kt                  # Domain object for Order
+│   │   ├── event/
+│   │   │   └── OrderCreatedEvent.kt      # Domain event for order creation (NEW)
 │   │   └── dto/
-│   │       └── OrderDTO.kt           # DTO for order serialization
+│   │       └── OrderDTO.kt               # DTO for order serialization
 │   └── data/
 │       ├── entity/
-│       │   └── OrderEntity.kt        # Exposed Entity Class for Order
+│       │   └── OrderEntity.kt            # Exposed Entity Class for Order
 │       ├── table/
-│       │   └── Orders.kt             # Exposed Table Object for Orders
+│       │   └── Orders.kt                 # Exposed Table Object for Orders
 │       └── repository/
-│           ├── OrderRepository.kt    # Interface for order repository
-│           └── OrderRepositoryImpl.kt # Implementation of order repository
+│           ├── OrderRepository.kt        # Interface for order repository
+│           └── OrderRepositoryImpl.kt    # Implementation of order repository
 ```
 ```
 [Client]

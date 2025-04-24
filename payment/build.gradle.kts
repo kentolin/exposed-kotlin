@@ -14,4 +14,6 @@ dependencies {
     implementation(libs.exposed.core)
     implementation(libs.exposed.dao)
 
+    implementation(libs.exposed.java.time)
+
 }
