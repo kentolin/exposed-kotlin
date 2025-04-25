@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
 
-    implementation(project(":shared"))
+    implementation(project(":mb"))
     implementation(project(":database"))
     implementation(project(":di"))
 

@@ -2,15 +2,17 @@ package com.example.user.application.service
 
 import com.example.user.application.mapper.UserMapper
 import com.example.user.data.repository.UserRepository
-import com.example.shared.domain.dto.UserDTO
+import com.example.mb.domain.dto.UserDTO
 
 // Service implementation
 class UserServiceImpl(
     private val repository: UserRepository
 ) : UserService {
     override suspend fun create(dto: UserDTO): UserDTO {
-        val user = repository.create(dto.name)
-        return UserMapper.toDTO(user)
+        val user = UserMapper.toUser(dto).apply {
+            validate()
+        }
+        return UserMapper.toDTO(repository.create(user.name))
     }
 
     override suspend fun getById(id: Int): UserDTO? {
@@ -18,7 +20,10 @@ class UserServiceImpl(
     }
 
     override suspend fun update(id: Int, dto: UserDTO): Boolean {
-        return repository.update(id, dto.name)
+        val user = UserMapper.toUser(dto).apply {
+            validate()
+        }
+        return repository.update(id, user.name)
     }
 
     override suspend fun delete(id: Int): Boolean {

@@ -1,6 +1,6 @@
 package com.example.payment.application.mapper
 
-import com.example.shared.domain.dto.PaymentDTO
+import com.example.mb.domain.dto.PaymentDTO
 import com.example.payment.domain.model.Payment
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

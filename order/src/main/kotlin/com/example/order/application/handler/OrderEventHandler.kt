@@ -1,6 +1,6 @@
 package com.example.order.application.handler
 
-import com.example.shared.domain.event.PaymentProcessedEvent
+import com.example.mb.domain.event.PaymentProcessedEvent
 
 class OrderEventHandler {
     fun handle(event: PaymentProcessedEvent) {

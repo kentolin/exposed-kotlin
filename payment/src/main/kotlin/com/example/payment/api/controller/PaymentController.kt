@@ -1,7 +1,7 @@
 package com.example.payment.api.controller
 
 import com.example.payment.application.service.PaymentService
-import com.example.shared.domain.dto.PaymentDTO
+import com.example.mb.domain.dto.PaymentDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

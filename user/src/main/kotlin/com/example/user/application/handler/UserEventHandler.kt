@@ -1,10 +1,9 @@
 package com.example.user.application.handler
 
-import com.example.shared.domain.event.OrderCreatedEvent
+import com.example.mb.domain.event.OrderCreatedEvent
 
 class UserEventHandler {
     fun handle(event: OrderCreatedEvent) {
-        // Example: Log or update user data
-        println("User notified of order ${event.orderId}")
+        println("User ${event.userId} notified of order ${event.orderId}")
     }
 }

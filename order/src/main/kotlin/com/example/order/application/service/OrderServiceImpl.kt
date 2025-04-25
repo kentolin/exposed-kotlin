@@ -2,7 +2,7 @@ package com.example.order.application.service
 
 import com.example.order.application.mapper.OrderMapper
 import com.example.order.data.repository.OrderRepository
-import com.example.shared.domain.dto.OrderDTO
+import com.example.mb.domain.dto.OrderDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

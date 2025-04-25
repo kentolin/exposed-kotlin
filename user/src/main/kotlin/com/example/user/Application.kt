@@ -1,6 +1,8 @@
 package com.example.user
 
 import com.example.user.plugins.configureDatabases
+import com.example.user.plugins.configureDependencyInjection
+import com.example.user.plugins.configureMessageBroker
 import com.example.user.plugins.configureRouting
 import com.example.user.plugins.configureSerialization
 import io.ktor.server.application.*
@@ -13,5 +15,8 @@ fun main(args: Array<String>){
 fun Application.module(){
     configureSerialization()
     configureDatabases()
+    configureDependencyInjection()
+    configureMessageBroker()
     configureRouting()
+
 }

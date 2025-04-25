@@ -1,9 +1,9 @@
 package com.example.order.application.service
 
-import com.example.shared.application.service.EventPublisher
-import com.example.shared.domain.dto.OrderDTO
-import com.example.shared.domain.dto.UserDTO
-import com.example.shared.domain.event.OrderCreatedEvent
+import com.example.mb.application.service.EventPublisher
+import com.example.mb.domain.dto.OrderDTO
+import com.example.mb.domain.dto.UserDTO
+import com.example.mb.domain.event.OrderCreatedEvent
 import com.example.order.application.mapper.OrderMapper
 import com.example.order.data.repository.OrderRepository
 import io.ktor.client.*
