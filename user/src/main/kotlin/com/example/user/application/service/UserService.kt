@@ -1,6 +1,6 @@
 package com.example.user.application.service
 
-import com.example.user.domain.dto.UserDTO
+import com.example.shared.domain.dto.UserDTO
 
 // Service interface
 interface UserService {

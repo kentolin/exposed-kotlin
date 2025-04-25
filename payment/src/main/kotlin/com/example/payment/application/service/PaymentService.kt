@@ -1,6 +1,6 @@
 package com.example.payment.application.service
 
-import com.example.payment.domain.dto.PaymentDTO
+import com.example.shared.domain.dto.PaymentDTO
 
 // Service interface
 interface PaymentService {

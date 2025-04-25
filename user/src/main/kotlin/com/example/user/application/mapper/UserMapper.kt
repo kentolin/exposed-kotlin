@@ -1,6 +1,6 @@
 package com.example.user.application.mapper
 
-import com.example.user.domain.dto.UserDTO
+import com.example.shared.domain.dto.UserDTO
 import com.example.user.domain.model.User
 
 // Mapper

@@ -2,7 +2,7 @@ package com.example.payment.application.service
 
 import com.example.payment.application.mapper.PaymentMapper
 import com.example.payment.data.repository.PaymentRepository
-import com.example.payment.domain.dto.PaymentDTO
+import com.example.shared.domain.dto.PaymentDTO
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

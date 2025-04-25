@@ -1,7 +1,7 @@
 package com.example.order.api.controller
 
 import com.example.order.application.service.OrderService
-import com.example.order.domain.dto.OrderDTO
+import com.example.shared.domain.dto.OrderDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

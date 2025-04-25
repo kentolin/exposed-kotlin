@@ -1,6 +1,6 @@
 package com.example.order.application.service
 
-import com.example.order.domain.dto.OrderDTO
+import com.example.shared.domain.dto.OrderDTO
 
 // Service interface
 interface OrderService {

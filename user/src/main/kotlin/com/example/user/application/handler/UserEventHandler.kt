@@ -1,6 +1,6 @@
 package com.example.user.application.handler
 
-import com.example.order.domain.event.OrderCreatedEvent
+import com.example.shared.domain.event.OrderCreatedEvent
 
 class UserEventHandler {
     fun handle(event: OrderCreatedEvent) {

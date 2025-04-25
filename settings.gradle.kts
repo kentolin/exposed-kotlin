@@ -12,7 +12,7 @@ rootProject.name = "exposed-kotlin"
 
 
 include(":server")
-include(":common")
+include(":shared")
 include(":di")
 include(":database")
 include(":user")

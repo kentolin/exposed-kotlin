@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/exposed-kotlin.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/exposed-kotlin.common.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment/exposed-kotlin.payment.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payment/exposed-kotlin.payment.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/exposed-kotlin.shared.main.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/exposed-kotlin.shared.main.iml" />
     </modules>
   </component>
 </project>

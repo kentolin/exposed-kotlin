@@ -1,7 +1,7 @@
 package com.example.user.api.controller
 
 import com.example.user.application.service.UserService
-import com.example.user.domain.dto.UserDTO
+import com.example.shared.domain.dto.UserDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

@@ -1,6 +1,6 @@
 package com.example.order.application.mapper
 
-import com.example.order.domain.dto.OrderDTO
+import com.example.shared.domain.dto.OrderDTO
 import com.example.order.domain.model.Order
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
