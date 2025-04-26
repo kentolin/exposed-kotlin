@@ -8,10 +8,11 @@ pluginManagement {
 }
 
 
+
 rootProject.name = "exposed-kotlin"
 
 
-
+include(":shared")
 include(":mb")
 include(":di")
 include(":database")

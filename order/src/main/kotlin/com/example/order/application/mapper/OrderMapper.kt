@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 
 // Mapper
 object OrderMapper {
-    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+    internal val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
     fun toDTO(order: Order): OrderDTO = OrderDTO(
         order.id,

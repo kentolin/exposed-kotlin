@@ -1,8 +1,11 @@
 package com.example.user.api.controller
 
+import com.example.mb.application.service.EventPublisher
 import com.example.user.application.service.UserService
 import com.example.mb.domain.dto.UserDTO
+import com.example.mb.domain.event.OrderCreatedEvent
 import com.example.user.application.service.UserServiceFacade
+import com.example.user.plugins.diContainer
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -36,4 +39,5 @@ class UserController(
         val id = call.parameters["id"]?.toIntOrNull() ?: return call.respond(HttpStatusCode.BadRequest)
         if (service.delete(id)) call.respond(HttpStatusCode.NoContent) else call.respond(HttpStatusCode.NotFound)
     }
+
 }

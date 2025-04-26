@@ -11,5 +11,6 @@ fun Route.paymentRouting(controller: PaymentController) {
         post { controller.create(call) }
         put("/{id}") { controller.update(call) }
         delete("/{id}") { controller.delete(call) }
+
     }
 }

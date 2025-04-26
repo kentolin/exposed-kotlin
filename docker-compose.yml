@@ -1,0 +1,19 @@
+services:
+  order:
+    build:
+      context: .
+      dockerfile: order/Dockerfile
+    ports:
+      - "8082:8082"
+  payment:
+    build:
+      context: .
+      dockerfile: payment/Dockerfile
+    ports:
+      - "8083:8083"
+  user:
+    build:
+      context: .
+      dockerfile: user/Dockerfile
+    ports:
+      - "8081:8081"

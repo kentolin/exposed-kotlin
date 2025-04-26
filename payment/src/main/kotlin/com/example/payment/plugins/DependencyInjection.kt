@@ -1,4 +1,4 @@
-package com.example.user.plugins
+package com.example.payment.plugins
 
 import com.example.database.DatabaseFactory
 import com.example.database.DatabaseFactoryImpl
@@ -6,20 +6,19 @@ import com.example.di.core.DIContainer
 import com.example.di.dsl.module
 import com.example.mb.application.service.EventPublisher
 import com.example.mb.application.service.MessageBrokerEventPublisher
-import com.example.user.api.controller.UserController
-import com.example.user.application.handler.UserEventHandler
-import com.example.user.application.service.UserService
-import com.example.user.application.service.UserServiceFacade
-import com.example.user.application.service.UserServiceImpl
-import com.example.user.data.repository.UserRepository
-import com.example.user.data.repository.UserRepositoryImpl
-import io.ktor.client.*
+import com.example.payment.api.controller.PaymentController
+import com.example.payment.application.handler.PaymentEventHandler
+import com.example.payment.application.service.PaymentService
+import com.example.payment.application.service.PaymentServiceFacade
+import com.example.payment.application.service.PaymentServiceImpl
+import com.example.payment.data.repository.PaymentRepository
+import com.example.payment.data.repository.PaymentRepositoryImpl
+import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.*
 import io.ktor.util.*
-
 
 var Application.diContainer: DIContainer
     get() = this.attributes.getOrNull(AttributeKey("DIContainer"))
@@ -39,22 +38,22 @@ val DependencyInjectionPlugin = createApplicationPlugin("DependencyInjectionPlug
         single<EventPublisher> {
             MessageBrokerEventPublisher(
                 httpClient = container.get(),
-                serviceUrls = listOf("http://localhost:8082", "http://localhost:8083"),
-                serviceId = "user"
+                serviceUrls = listOf("http://localhost:8081", "http://localhost:8082"),
+                serviceId = "payment"
             )
         }
     }
-    val userModule = module {
-        factory<UserRepository> { container -> UserRepositoryImpl(container.get()) }
-        single<UserService> { container -> UserServiceImpl(container.get()) }
-        single<UserEventHandler> { UserEventHandler() }
-        single<UserServiceFacade> { container-> UserServiceFacade(container.get(), container.get()) }
-        single<UserController> { container -> UserController(container.get(), container.get()) }
+    val paymentModule = module {
+        factory<PaymentRepository> { container -> PaymentRepositoryImpl(container.get()) }
+        single<PaymentService> { container -> PaymentServiceImpl(container.get()) }
+        single<PaymentEventHandler> { PaymentEventHandler() }
+        single<PaymentServiceFacade> { container-> PaymentServiceFacade(container.get(), container.get()) }
+        single<PaymentController> { container -> PaymentController(container.get(), container.get()) }
 
 
     }
     container.loadModule(coreModule)
-    container.loadModule(userModule)
+    container.loadModule(paymentModule)
     application.diContainer = container
 }
 

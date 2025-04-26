@@ -11,3 +11,12 @@ allprojects {
         mavenCentral()
     }
 }
+
+// build.gradle.kts (root)
+tasks.register("runAllMicroservices") {
+    dependsOn(":user:run", ":order:run", ":payment:run")
+    // Ensure parallel execution
+    tasks.findByName(":user:run")?.mustRunAfter()
+    tasks.findByName(":order:run")?.mustRunAfter()
+    tasks.findByName(":payment:run")?.mustRunAfter()
+}

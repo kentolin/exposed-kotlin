@@ -1,8 +1,7 @@
 package com.example.order
 
-import com.example.server.plugins.configureDatabases
-import com.example.server.plugins.configureRouting
-import com.example.server.plugins.configureSerialization
+
+import com.example.order.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.netty.*
 
@@ -13,5 +12,8 @@ fun main(args: Array<String>){
 fun Application.module(){
     configureSerialization()
     configureDatabases()
+    configureDependencyInjection()
+    configureMessageBroker()
     configureRouting()
+
 }
