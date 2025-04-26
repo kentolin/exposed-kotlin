@@ -1,9 +1,13 @@
 package com.example.order
 
 
+import com.example.mb.application.service.EventPublisher
+import com.example.mb.application.service.MessageBrokerEventPublisher
 import com.example.order.plugins.*
+import io.ktor.client.HttpClient
 import io.ktor.server.application.*
 import io.ktor.server.netty.*
+import kotlinx.coroutines.runBlocking
 
 fun main(args: Array<String>){
     EngineMain.main(args)
@@ -15,5 +19,19 @@ fun Application.module(){
     configureDependencyInjection()
     configureMessageBroker()
     configureRouting()
+
+    // Shutdown hook
+    environment.monitor.subscribe(ApplicationStopping) {
+        println("Order: Shutting down application")
+        val eventPublisher = diContainer.get<EventPublisher>()
+        if (eventPublisher is MessageBrokerEventPublisher) {
+            eventPublisher.shutdown()
+        }
+        val httpClient = diContainer.get<HttpClient>()
+        runBlocking {
+            httpClient.close()
+        }
+        println("Order: Shutdown complete")
+    }
 
 }

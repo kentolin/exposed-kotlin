@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mb/exposed-kotlin.mb.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mb/exposed-kotlin.mb.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/order/exposed-kotlin.order.main.iml" filepath="$PROJECT_DIR$/.idea/modules/order/exposed-kotlin.order.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/payment/exposed-kotlin.payment.main.iml" filepath="$PROJECT_DIR$/.idea/modules/payment/exposed-kotlin.payment.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/exposed-kotlin.shared.main.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/exposed-kotlin.shared.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/user/exposed-kotlin.user.main.iml" filepath="$PROJECT_DIR$/.idea/modules/user/exposed-kotlin.user.main.iml" />
     </modules>
   </component>

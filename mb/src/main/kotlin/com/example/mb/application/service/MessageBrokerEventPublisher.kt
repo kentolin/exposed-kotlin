@@ -8,19 +8,19 @@ import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentLinkedQueue
 
 class MessageBrokerEventPublisher(
     private val httpClient: HttpClient? = null,
     private val serviceUrls: List<String> = emptyList(),
     private val serviceId: String
 ) : EventPublisher {
-    private val topics = ConcurrentHashMap<String, ConcurrentLinkedQueue<String>>()
+    private val topics = ConcurrentHashMap<String, Channel<String>>()
     private val subscribers = ConcurrentHashMap<String, MutableList<(Any) -> Unit>>()
     private val processedEventIds = ConcurrentHashMap.newKeySet<String>()
     private val failedUrls = ConcurrentHashMap<String, Long>()
@@ -38,50 +38,44 @@ class MessageBrokerEventPublisher(
 
     init {
         scope.launch {
-            while (isActive) {
-                var hasEvents = false
-                topics.forEach { (topic, queue) ->
-                    if (queue.isNotEmpty()) {
-                        hasEvents = true
-                        println("Broker: Processing topic $topic, queue size: ${queue.size}")
-                        while (queue.isNotEmpty()) {
-                            val eventJson = queue.poll() ?: continue
-                            println("Broker: Processing event JSON: $eventJson")
-                            val handlers = subscribers[topic] ?: emptyList()
-                            println("Broker: Found ${handlers.size} handlers for topic $topic")
-                            handlers.forEach { handler ->
-                                launch {
-                                    try {
-                                        val event = when (topic) {
-                                            "events.UserCreatedEvent" -> json.decodeFromString<UserCreatedEvent>(eventJson)
-                                            "events.OrderCreatedEvent" -> json.decodeFromString<OrderCreatedEvent>(eventJson)
-                                            "events.PaymentProcessedEvent" -> json.decodeFromString<PaymentProcessedEvent>(eventJson)
-                                            else -> return@launch
-                                        }
-                                        if (processedEventIds.contains(event.eventId)) {
-                                            println("Broker: Skipping already processed event ${event.eventId} (Origin: ${event.origin})")
-                                            return@launch
-                                        }
-                                        if (event.origin == serviceId) {
-                                            println("Broker: Skipping event from self ${event.eventId} (Origin: ${event.origin})")
-                                            return@launch
-                                        }
-                                        if (processedEventIds.size > 10_000) {
-                                            println("Broker: Clearing processed event IDs to prevent memory growth")
-                                            processedEventIds.clear()
-                                        }
-                                        processedEventIds.add(event.eventId)
-                                        println("Broker: Deserialized event: $event")
-                                        handler(event)
-                                    } catch (e: Exception) {
-                                        println("Broker: Error processing event for topic $topic: $e")
+            topics.forEach { (topic, channel) ->
+                launch {
+                    while (isActive) {
+                        val eventJson = channel.receive()
+                        println("Broker: Processing event for topic $topic: $eventJson")
+                        val handlers = subscribers[topic] ?: emptyList()
+                        println("Broker: Found ${handlers.size} handlers for topic $topic")
+                        handlers.forEach { handler ->
+                            launch {
+                                try {
+                                    val event = when (topic) {
+                                        "events.UserCreatedEvent" -> json.decodeFromString<UserCreatedEvent>(eventJson)
+                                        "events.OrderCreatedEvent" -> json.decodeFromString<OrderCreatedEvent>(eventJson)
+                                        "events.PaymentProcessedEvent" -> json.decodeFromString<PaymentProcessedEvent>(eventJson)
+                                        else -> return@launch
                                     }
+                                    if (processedEventIds.contains(event.eventId)) {
+                                        println("Broker: Skipping already processed event ${event.eventId} (Origin: ${event.origin})")
+                                        return@launch
+                                    }
+                                    if (event.origin == serviceId) {
+                                        println("Broker: Skipping event from self ${event.eventId} (Origin: ${event.origin})")
+                                        return@launch
+                                    }
+                                    if (processedEventIds.size > 10_000) {
+                                        println("Broker: Clearing processed event IDs to prevent memory growth")
+                                        processedEventIds.clear()
+                                    }
+                                    processedEventIds.add(event.eventId)
+                                    println("Broker: Deserialized event: $event")
+                                    handler(event)
+                                } catch (e: Exception) {
+                                    println("Broker: Error processing event for topic $topic: $e")
                                 }
                             }
                         }
                     }
                 }
-                delay(if (hasEvents) 10 else 100)
             }
         }
     }
@@ -104,12 +98,14 @@ class MessageBrokerEventPublisher(
             else -> return
         }
         println("Broker: Publishing event to topic $topic: $json")
-        val queue = topics.computeIfAbsent(topic) { ConcurrentLinkedQueue() }
-        if (queue.size > 1000) {
-            println("Broker: Warning: Queue for topic $topic is full (size: ${queue.size}). Dropping event.")
-            return
+        val channel = topics.computeIfAbsent(topic) { Channel(capacity = 1000) }
+        scope.launch {
+            if (channel.trySend(json).isFailure) {
+                println("Broker: Warning: Channel for topic $topic is full. Dropping event.")
+                synchronized(processedEventIds) { processedEventIds.remove(baseEvent.eventId) }
+                return@launch
+            }
         }
-        queue.add(json)
 
         httpClient?.let { client ->
             httpScope.launch {
@@ -142,11 +138,13 @@ class MessageBrokerEventPublisher(
     override fun subscribe(eventType: String, handler: (Any) -> Unit) {
         val topic = "events.$eventType"
         subscribers.computeIfAbsent(topic) { mutableListOf() }.add(handler)
+        topics.computeIfAbsent(topic) { Channel(capacity = 1000) }
         println("Broker: Subscribed to topic $topic, total handlers: ${subscribers[topic]?.size}")
     }
 
     fun shutdown() {
         scope.cancel()
         httpScope.cancel()
+        topics.values.forEach { it.close() }
     }
 }
