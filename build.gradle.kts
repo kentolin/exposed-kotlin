@@ -21,11 +21,4 @@ tasks.register("runAllMicroservices") {
     tasks.findByName(":order:run")?.mustRunAfter()
     tasks.findByName(":payment:run")?.mustRunAfter()
 
-    doFirst {
-        // Clean up any existing PID files
-        File("user.pid").delete()
-        File("order.pid").delete()
-        File("payment.pid").delete()
-    }
 }
-
